@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.settings.dao.UserDao"> <!--推荐与接口名一致-->
+    <select id="selectById" resultType="com.example.settings.domain.User">
+        select *
+        from t_user
+    </select> <!--修改id,推荐与方法名一致,修改resultType,全限定名-->
+
+    <insert id="add"><!--修改id,推荐与方法名一致-->
+        insert into student (name,classnum) values(#{name},#{classnum})<!--#{}相当于占位符,不用手动传每个属性值,而是传入对象,自动读取传入对象的属性-->
+    </insert>  <!--非select不用resultType-->
+    <select id="login" resultType="com.example.settings.domain.User">
+        select * from t_user where loginAct=#{loginAct} and loginPsw=#{loginPsw}
+    </select>
+</mapper>
+
+        <!--SQL映射文件用于写操作一个表的多条sql语句  namespace映射文件的标识,id 是sql语句的标识-->
+
+
+        <!-- <resultMap id="studentandclassVO" type="com.example.entity.StudentAndClassVO">
+        <association property="student" javaType="com.example.entity.Student">
+            <result column="name" property="name"/>
+        </association>
+        <association property="classes" javaType="com.example.entity.Classes">
+            <result property="name" column="cname"/>
+        </association>
+    </resultMap>-->

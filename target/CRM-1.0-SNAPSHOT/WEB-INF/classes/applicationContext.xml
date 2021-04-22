@@ -29,7 +29,7 @@
     <!--通过MapperScannerConfigurer获取dao类-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="sqlSessionFactoryBeanName" value="sqlsessionfactory"/>
-        <property name="basePackage" value="com.example.dao"></property>          <!--扫描包中所有dao接口在容器中生成实现类的代理类-->
+        <property name="basePackage" value="com.example.settings.dao"></property>          <!--扫描包中所有dao接口在容器中生成实现类的代理类-->
     </bean>
     <!--事务管理器对象-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -38,7 +38,7 @@
     <!--spring读取属性配置文件-->
     <context:property-placeholder location="classpath:jdbc.properties"/>
     <!--容器中创建对象-->
-    <context:component-scan base-package="com.example.service"/>
+    <context:component-scan base-package="com.example.settings.service"/>
     <!--找到切面对象,通过通知注解和切入点表达式找到包含指定方法的对象,修改为代理类,实现增强-->
     <aop:aspectj-autoproxy/>
 
@@ -50,7 +50,7 @@
     <!--方法需要的事务(事务属性) 即配置(什么方法要什么事务)--> <!--需要修改的部分,方法名 切入点表达式-->
     <tx:advice id="advice" transaction-manager="transactionManager">
         <tx:attributes>
-            <tx:method name="buy" propagation="REQUIRED" timeout="60" isolation="DEFAULT"
+            <tx:method name="login" propagation="REQUIRED" timeout="60" isolation="DEFAULT"
                        rollback-for="Exception.class"/>
             <tx:method name="*" read-only="true"/>
             <tx:method name="update*" rollback-for="Exception.class"/>

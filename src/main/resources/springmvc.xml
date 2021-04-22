@@ -6,7 +6,8 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
     <!--组件扫描器-->
-    <context:component-scan base-package="com.example.controller"/>
+    <context:component-scan base-package="com.example.settings.controller"/>
+    <context:component-scan base-package="com.example.exception"/>
 
     <!--mvc注解驱动--><!--作用1,转换返换对象为Json格式数据,2中央调度器增加处理静态资源文件的能力-->
     <mvc:annotation-driven/>

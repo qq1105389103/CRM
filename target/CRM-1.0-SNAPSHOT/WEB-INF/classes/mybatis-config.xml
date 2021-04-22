@@ -28,8 +28,8 @@
         <!--一个mapper标签指定一个文件的位置。,可定义多个sql映射文件位置
            从类路径开始的路径信息(编译后)。  target/clasess(类路径)开始!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         -->
-        <package name="com.example.dao"/>
-        <!--<mapper resource="com/example/com.example.dao/SchoolDao.xml" />-->
+        <package name="com.example.settings.dao"/>
+        <!--<mapper resource="com/example/com.example.settings.dao/SchoolDao.xml" />-->
     </mappers>
 </configuration>
         <!--
