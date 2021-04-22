@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <!--定义好的初始方法,构造方法--> <!--销毁方法-->
+        <!--使用set诸如为数据库连接池对象属性赋值,url等连接数据库的信息都是其属性-->
+        <property name="url" value="${jdbc.url}"/>        <!--根据url识别驱动类,不需要配置驱动-->
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+
+        <property name="filters" value="stat"/>
+
+        <property name="maxActive" value="20"/> <!--容纳多少个连接对象-->
+        <property name="initialSize" value="1"/>  <!--默认创建几个连接(对象?)-->
+        <property name="maxWait" value="6000"/> <!--最大等待时间,超出时间连接失败-->
+        <property name="minIdle" value="1"/>
+
+
+    </bean>
+    <!--通过sqlsessionfatorybean获取sqlsessionfactory-->
+    <bean id="sqlsessionfactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>         <!--提供数据源-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>  <!--主配置文件主要是用于提供sql映射文件信息-->
+    </bean>
+    <!--通过MapperScannerConfigurer获取dao类-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlsessionfactory"/>
+        <property name="basePackage" value="com.example.dao"></property>          <!--扫描包中所有dao接口在容器中生成实现类的代理类-->
+    </bean>
+    <!--事务管理器对象-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--spring读取属性配置文件-->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+    <!--容器中创建对象-->
+    <context:component-scan base-package="com.example.service"/>
+    <!--找到切面对象,通过通知注解和切入点表达式找到包含指定方法的对象,修改为代理类,实现增强-->
+    <aop:aspectj-autoproxy/>
+
+    <!--开启事务注解驱动,告诉spring以注解的方式管理事务,扫描容器中对象有transactional注解的对象,修改其为代理类,我们从容器中取出目标类的将是代理类-->
+    <!--<tx:annotation-driven transaction-manager="transactionManager"/>-->
+
+    <!--使用声明式事务处理,不用注解,即在配置文件中声明类和方法需要的事务,需要aspectj框架-->
+
+    <!--方法需要的事务(事务属性) 即配置(什么方法要什么事务)--> <!--需要修改的部分,方法名 切入点表达式-->
+    <tx:advice id="advice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="buy" propagation="REQUIRED" timeout="60" isolation="DEFAULT"
+                       rollback-for="Exception.class"/>
+            <tx:method name="*" read-only="true"/>
+            <tx:method name="update*" rollback-for="Exception.class"/>
+            <tx:method name="add*" rollback-for="Exception.class"/>
+            <tx:method name="remove*" rollback-for="Exception.class"/>
+        </tx:attributes>
+    </tx:advice>
+    <!--配置切入点表达式,那些类中的方法要加强-->
+    <aop:config>
+        <aop:pointcut id="pointcut" expression="execution(* *..service..*.*(..))"/>
+        <!--告诉切入点表达式,方法需要应用什么事务(配置增强器)-->
+        <aop:advisor advice-ref="advice" pointcut-ref="pointcut"/>
+    </aop:config>
+
+
+</beans>

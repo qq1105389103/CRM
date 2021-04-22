@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--引入一个配置文件-->
+
+    <!--settings：控制mybatis全局行为,设置与数据库交互的环境,如配置二级缓存,配置查询延迟加载,最终目的是更快速有效的查询表中数据,但实际没有效果,项目少用-->
+
+    <settings>
+        <!--设置mybatis输出日志-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+    </plugins>
+
+    <!--环境配置： 数据库的连接信息
+        default:必须和某个environment的id值一样。
+        告诉mybatis使用哪个数据库的连接信息。也就是访问哪个数据库
+        由mybatis创建连接池对象
+    -->
+    <!--由于使用的是阿里的druid故不配置数据库信息,不用mybatis自带的连接池-->
+
+
+    <!-- sql mapper(sql映射文件)的位置-->
+    <mappers>
+        <!--一个mapper标签指定一个文件的位置。,可定义多个sql映射文件位置
+           从类路径开始的路径信息(编译后)。  target/clasess(类路径)开始!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        -->
+        <package name="com.example.dao"/>
+        <!--<mapper resource="com/example/com.example.dao/SchoolDao.xml" />-->
+    </mappers>
+</configuration>
+        <!--
+   mybatis的主配置文件： 主要定义了数据库的配置信息， sql映射文件的位置
+
+   1. 约束文件
+   <!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+    mybatis-3-config.dtd：约束文件的名称
+
+  2. configuration 根标签。
+-->
