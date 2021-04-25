@@ -43,7 +43,7 @@ public class myServiceImpl implements myService {
          if(timeOk>0)
              throw new LoginException("你的账号已经失效");
       }
-         request.setAttribute("user",user);
+         request.getSession().setAttribute("user",user);
 
     }
 
