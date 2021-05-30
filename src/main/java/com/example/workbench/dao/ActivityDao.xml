@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.workbench.dao.ActivityDao"> <!--推荐与接口名一致-->
+    <select id="displayAllActivities" resultType="com.example.workbench.domain.Activity">
+        select *
+        from t_activity
+    </select> <!--修改id,推荐与方法名一致,修改resultType,全限定名-->
+    <select id="displayById" resultType="com.example.workbench.domain.Activity">
+        select
+               owner,
+            name,
+            startDate,
+            endDate,
+            cost,
+            description from t_activity where id=#{id}
+
+
+    </select>
+    <select id="displayById2" resultType="com.example.workbench.domain.Activity">
+        select
+            u.name as owner,
+               a.id,
+            a.name,
+            a.startDate,
+            a.endDate,
+            a.cost,
+            a.description,a.createBy,a.editBy,a.createTime,a.editTime from t_activity a join t_user u on a.owner=u.id  where a.id=#{id}
+
+
+    </select>
+    <update id="updateById">
+        update t_activity set
+            name=#{name},
+            owner=#{owner},
+            startDate=#{startDate},
+            endDate=#{endDate},
+            cost=#{cost},
+            description=#{description},editTime=#{editTime},editBy=#{editBy}
+                              where id=#{id}
+    </update>
+    <insert id="saveActivity">
+        insert into t_activity (id,owner,name,startDate,endDate,cost,description,createtime,createby)
+values(#{id},#{owner},#{name},#{startDate},#{endDate},#{cost},#{description},#{createTime},#{createBy})
+    </insert>
+    <select id="pageDisplay1" resultType="com.example.workbench.domain.Activity">
+        select * from t_activity
+    </select>
+    <select id="pageDisplayByCondition" resultType="com.example.workbench.domain.Activity">
+        select a.id,u.name as owner,a.name,a.startDate,a.endDate,a.cost,a.description,a.createTime,a.createBy
+        from t_activity a join t_user u on a.owner=u.id
+        <where>
+            <if test="name!=null and name!=''">
+                a.name like "%" #{name} "%"
+            </if>
+            <if test="owner!=null and owner!=''">
+              and  u.name=#{owner}
+            </if>
+            <if test="startDate!=null and startDate!=''">
+              and a.startDate>=#{startDate}
+            </if>
+            <if test="endDate!=null and endDate!=''">
+               <![CDATA[  and  a.endDate<=#{endDate}]]>
+            </if>
+
+        </where>
+        order  by a.createTime desc
+    </select>
+    <select id="getTotalByCondition" resultType="java.lang.String" >
+        select Count(*)
+        from t_activity a join t_user u on a.owner=u.id
+        <where>
+            <if test="name!=null and name!=''">
+                a.name like "%" #{name} "%"
+            </if>
+            <if test="owner!=null and owner!=''">
+                and  u.name=#{owner}
+            </if>
+            <if test="startDate!=null and startDate!=''">
+                and a.startDate>=#{startDate}
+            </if>
+            <if test="endDate!=null and endDate!=''">
+                <![CDATA[  and  a.endDate<=#{endDate}]]>
+            </if>
+
+        </where>
+
+    </select>
+    <delete id="delActivity" >
+        delete from t_activity where id in
+<foreach collection="array" item="id" open="(" close=")" separator=",">
+    #{id}
+</foreach>
+    </delete>
+    <select id="ActivityCount" resultType="int">
+        select count(*) from t_activity where id in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="selectRemark" resultType="int">
+        select count(*) from t_activity_remark where activityId in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+    <delete id="delRemark" >
+        delete from t_activity_remark where activityId in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+    <!--<resultMap id="ActivityVo" type="com.example.workbench.vo.ActivityVo">
+        <association property="activity" javaType="com.example.workbench.domain.Activity">
+                <id column="id" property="id"></id>
+                 <result column="owner" property="owner"></result>
+            <result column="createBy" property="createBy"></result>
+            <result column="createTime" property="createTime"></result>
+            <result column="startDate" property="startDate"></result>
+            <result column="endDate" property="endDate"></result>
+            <result column="name" property="name"></result>
+            <result column="description" property="description"></result>
+            <result column="cost" property="cost"></result>
+
+        </association>
+
+    </resultMap>-->
+</mapper>
+
+        <!--SQL映射文件用于写操作一个表的多条sql语句  namespace映射文件的标识,id 是sql语句的标识-->
+
+
+        <!-- <resultMap id="studentandclassVO" type="com.example.entity.StudentAndClassVO">
+        <association property="student" javaType="com.example.entity.Student">
+            <result column="name" property="name"/>
+        </association>
+        <association property="classes" javaType="com.example.entity.Classes">
+            <result property="name" column="cname"/>
+        </association>
+    </resultMap>-->

@@ -13,4 +13,18 @@ public class aExceptionHandler {
     public Map<String,String> loginExceptionHandler(LoginException e){
       return Map.of("success","false","message",e.getMessage());
     }
+    @ExceptionHandler(value=pageDisplayException.class)
+    @ResponseBody
+    public Map<String,String> pageDisplayException(pageDisplayException e){
+        return Map.of("error",e.getMessage());
+    }
+    @ExceptionHandler(value=deleteException.class)
+    @ResponseBody
+    public Map<String,String> deleteExceptionHandler(deleteException e){
+        return Map.of("success","false","msg",e.getMessage());
+    }
+    @ExceptionHandler(value = deleteRemarkException.class)
+    @ResponseBody
+    public Map<String,String> deleteRemarkExceptionHandler(deleteRemarkException e){
+       return Map.of("msg",e.getMessage())    ;}
 }

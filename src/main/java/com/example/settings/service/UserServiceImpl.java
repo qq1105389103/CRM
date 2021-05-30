@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 @Service
-public class myServiceImpl implements myService {
+public class UserServiceImpl implements User_Service {
     @Autowired
     private UserDao dao;
     @Override
     public List<User> display() {
-        return  dao.selectById();
+        return  dao.selectAll();
     }
 
     @Override
@@ -29,6 +29,11 @@ public class myServiceImpl implements myService {
            stateCheck(user,request);
 
 
+    }
+
+    @Override
+    public User selectId(String id) {
+        return dao.selectId(id);
     }
 
     private void stateCheck(User user,HttpServletRequest request) throws LoginException {
@@ -44,7 +49,7 @@ public class myServiceImpl implements myService {
              throw new LoginException("你的账号已经失效");
       }
          request.getSession().setAttribute("user",user);
-
+System.out.println(user);
     }
 
 

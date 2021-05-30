@@ -8,6 +8,7 @@
     <!--组件扫描器-->
     <context:component-scan base-package="com.example.settings.controller"/>
     <context:component-scan base-package="com.example.exception"/>
+    <context:component-scan base-package="com.example.workbench.controller"/>
 
     <!--mvc注解驱动--><!--作用1,转换返换对象为Json格式数据,2中央调度器增加处理静态资源文件的能力-->
     <mvc:annotation-driven/>
@@ -23,11 +24,11 @@
     </bean>
 
     <!--拦截器声明-->
-  <!--  <mvc:interceptors>
+  <mvc:interceptors>
         <mvc:interceptor>
-        <mvc:mapping path="/**"/>
-        <mvc:exclude-mapping path="/static/**"/>
-        <bean class="com.example.interceptor.login_check"/>
+        <mvc:mapping path="*.do"/>
+        <!--<mvc:exclude-mapping path="/static/**"/>-->
+        <bean class="com.example.interceptor.login_interceptor"/>
     </mvc:interceptor>
-    </mvc:interceptors>-->
+    </mvc:interceptors>
 </beans>

@@ -7,7 +7,7 @@ public class User {
    private String loginAct;
    private String name;
    //密码
-   private String loginPwd;
+   private String loginPsw;
    private String email;
    //失效时间 日期加时间 yyyy-xx-dd HH:mm:ss 19位
    private String expireTime;
@@ -49,12 +49,12 @@ public class User {
         this.name = name;
     }
 
-    public String getLoginPwd() {
-        return loginPwd;
+    public String getLoginPsw() {
+        return loginPsw;
     }
 
-    public void setLoginPwd(String loginPwd) {
-        this.loginPwd = loginPwd;
+    public void setLoginPsw(String loginPsw) {
+        this.loginPsw = loginPsw;
     }
 
     public String getEmail() {
@@ -135,7 +135,7 @@ public class User {
                 "id='" + id + '\'' +
                 ", loginAct='" + loginAct + '\'' +
                 ", name='" + name + '\'' +
-                ", loginPwd='" + loginPwd + '\'' +
+                ", loginPsw='" + loginPsw + '\'' +
                 ", email='" + email + '\'' +
                 ", expireTime='" + expireTime + '\'' +
                 ", lockState='" + lockState + '\'' +

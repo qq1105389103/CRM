@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.workbench.dao.ActivityRemarkDao"> <!--推荐与接口名一致-->
+    <select id="displayAllActivities" resultType="com.example.workbench.domain.ActivityRemark">
+        select *
+        from t_activity
+    </select> <!--修改id,推荐与方法名一致,修改resultType,全限定名-->
+    <select id="selectByAid" resultType="com.example.workbench.domain.ActivityRemark">
+        select * from t_activity_remark where activityId=#{id} order by createTime desc
+    </select>
+    <select id="getTotalById" resultType="int">
+        select count(*) from t_activity_remark where activityId=#{id}
+    </select>
+   <delete id="deleteRemark">
+       delete  from t_activity_remark where id=#{id}
+   </delete>
+    <update id="updateRemark">
+        update t_activity_remark set noteContent=#{noteContent},
+                      editBy=#{editBy},
+                     editTime=#{editTime},
+        editFlag='1'
+             where id=#{id}
+    </update>
+    <insert id="saveRemark">
+        insert into  t_activity_remark (id,noteContent,createTime,createBy,activityId,editFlag) values (#{id},#{noteContent},#{createTime},#{createBy},#{activityId},'0')
+    </insert>
+</mapper>
+
+        <!--SQL映射文件用于写操作一个表的多条sql语句  namespace映射文件的标识,id 是sql语句的标识-->
+
+
+        <!-- <resultMap id="studentandclassVO" type="com.example.entity.StudentAndClassVO">
+        <association property="student" javaType="com.example.entity.Student">
+            <result column="name" property="name"/>
+        </association>
+        <association property="classes" javaType="com.example.entity.Classes">
+            <result property="name" column="cname"/>
+        </association>
+    </resultMap>-->

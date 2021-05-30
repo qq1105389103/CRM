@@ -3,11 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.settings.dao.UserDao"> <!--推荐与接口名一致-->
-    <select id="selectById" resultType="com.example.settings.domain.User">
-        select *
+    <select id="selectAll" resultType="com.example.settings.domain.User">
+        select name,id
         from t_user
     </select> <!--修改id,推荐与方法名一致,修改resultType,全限定名-->
-
+    <select id="selectId" resultType="com.example.settings.domain.User">
+        select u.name,u.id
+        from t_user u join t_activity a on a.owner=u.id where a.id=#{id}
+    </select>
     <insert id="add"><!--修改id,推荐与方法名一致-->
         insert into student (name,classnum) values(#{name},#{classnum})<!--#{}相当于占位符,不用手动传每个属性值,而是传入对象,自动读取传入对象的属性-->
     </insert>  <!--非select不用resultType-->

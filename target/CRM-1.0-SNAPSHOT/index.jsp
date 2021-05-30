@@ -1,4 +1,5 @@
 <html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
 <body>
 <h2>Hello World!</h2>
 </body>

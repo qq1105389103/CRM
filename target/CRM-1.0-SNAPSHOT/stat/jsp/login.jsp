@@ -5,7 +5,7 @@
   Time: 9:36
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" session="false" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java"   %>
 <%
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/";
 %>
@@ -17,6 +17,7 @@
     <link href="stat/jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
     <script type="text/javascript" src="stat/jquery/jquery-3.4.1.js"></script>
     <script type="text/javascript" src="stat/jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
+
     <script type="text/javascript">
         $(function (){
         $("#loginAct").focus();
@@ -44,6 +45,11 @@
                 if(!aok)
                     $("#msg").html("<p style='color: #ac2925'>账号格式异常</p>")
             })
+            <% if(request.getSession().getAttribute("user")!=null) {%>
+            window.top.location='${pageContext.request.contextPath}/stat2/jsp/index.jsp'
+            <% }%>
+            if(window.top!=window.self)
+                window.top.location=window.self.location
         })
         //方法定义放在$(function)外边,不会出错
         login=function (){
@@ -87,7 +93,6 @@
                 ok = false;
 
 
-
         }
     </script>
 </head>
@@ -104,7 +109,7 @@
         <div class="page-header">
             <h1>登录</h1>
         </div>
-        <form action="stat/workbench/index.html" class="form-horizontal" role="form" id="login_form" >
+        <form action="stat2/jsp/index.jsp" class="form-horizontal" role="form" id="login_form" method="post" >
             <div class="form-group form-group-lg">
                 <div style="width: 350px;">
                     <input class="form-control" type="text" placeholder="用户名" id="loginAct" name="loginAct">

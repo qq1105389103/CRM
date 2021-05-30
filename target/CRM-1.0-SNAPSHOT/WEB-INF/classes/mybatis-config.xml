@@ -29,6 +29,7 @@
            从类路径开始的路径信息(编译后)。  target/clasess(类路径)开始!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         -->
         <package name="com.example.settings.dao"/>
+        <package name="com.example.workbench.dao"/>
         <!--<mapper resource="com/example/com.example.settings.dao/SchoolDao.xml" />-->
     </mappers>
 </configuration>

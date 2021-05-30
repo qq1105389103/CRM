@@ -29,7 +29,8 @@
     <!--通过MapperScannerConfigurer获取dao类-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="sqlSessionFactoryBeanName" value="sqlsessionfactory"/>
-        <property name="basePackage" value="com.example.settings.dao"></property>          <!--扫描包中所有dao接口在容器中生成实现类的代理类-->
+        <property name="basePackage" value="com.example.settings.dao,com.example.workbench.dao"/>          <!--扫描包中所有dao接口在容器中生成实现类的代理类-->
+
     </bean>
     <!--事务管理器对象-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -39,6 +40,7 @@
     <context:property-placeholder location="classpath:jdbc.properties"/>
     <!--容器中创建对象-->
     <context:component-scan base-package="com.example.settings.service"/>
+    <context:component-scan base-package="com.example.workbench.service"/>
     <!--找到切面对象,通过通知注解和切入点表达式找到包含指定方法的对象,修改为代理类,实现增强-->
     <aop:aspectj-autoproxy/>
 
@@ -52,10 +54,11 @@
         <tx:attributes>
             <tx:method name="login" propagation="REQUIRED" timeout="60" isolation="DEFAULT"
                        rollback-for="Exception.class"/>
-            <tx:method name="*" read-only="true"/>
+            <tx:method name="*" read-only="false" />
             <tx:method name="update*" rollback-for="Exception.class"/>
             <tx:method name="add*" rollback-for="Exception.class"/>
-            <tx:method name="remove*" rollback-for="Exception.class"/>
+            <tx:method name="remove*" rollback-for="java.lang.Exception"/>
+            <tx:method name="del*" rollback-for="com.example.exception.deleteException" />
         </tx:attributes>
     </tx:advice>
     <!--配置切入点表达式,那些类中的方法要加强-->
